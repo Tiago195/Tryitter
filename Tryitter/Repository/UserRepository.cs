@@ -5,9 +5,9 @@ namespace Tryitter.Repository;
 
 public class UserRepository : IUserRepository
 {
-  private readonly TryitterContext _context;
+  private readonly ITryitterContext _context;
 
-  public UserRepository(TryitterContext context)
+  public UserRepository(ITryitterContext context)
   {
     _context = context;
   }
@@ -46,7 +46,12 @@ public class UserRepository : IUserRepository
     if (isExistEmail != null) throw new ArgumentException("Already in use", $"Email = {userUpdate.Email}");
     if (user == null) throw new ArgumentNullException($"UserId = {id}", "Not found");
 
-    _context.Entry(user).CurrentValues.SetValues(userUpdate);
+    // _context.Entry(user).CurrentValues.SetValues(userUpdate);
+    user.Email = userUpdate.Email;
+    user.Name = userUpdate.Name;
+    user.Password = userUpdate.Password;
+
+    _context.users.Update(user);
 
     _context.SaveChanges();
   }

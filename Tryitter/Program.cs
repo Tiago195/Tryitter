@@ -10,8 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ErrorMiddleware>();
 builder.Services.AddControllers();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<TryitterContext>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITryitterContext, TryitterContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -59,3 +60,5 @@ app.MapControllers();
 
 
 app.Run();
+
+public partial class Program { }
