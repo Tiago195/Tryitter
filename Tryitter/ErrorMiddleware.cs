@@ -1,15 +1,11 @@
-// using Microsoft.
-
-public enum teste
-{
-  ArgumentNullException = 404
-}
 
 public class ErrorMiddleware : IMiddleware
 {
   private readonly Dictionary<string, int> _errors = new()
   {
-    {"System.ArgumentException", 404 }
+    {"System.ArgumentException", 409 },
+    {"System.ArgumentNullException", 404},
+    // {"System.InvalidOperationException", 401}
   };
   public async Task InvokeAsync(HttpContext context, RequestDelegate next)
   {
@@ -17,6 +13,7 @@ public class ErrorMiddleware : IMiddleware
     {
       await next(context);
     }
+
     catch (System.Exception e)
     {
       var isMapError = _errors.TryGetValue(e.GetType().ToString(), out int code);
@@ -27,6 +24,8 @@ public class ErrorMiddleware : IMiddleware
       }
       else
       {
+        System.Console.WriteLine(e.Message);
+        System.Console.WriteLine(e.GetType());
         context.Response.StatusCode = 500;
         await context.Response.WriteAsJsonAsync(new { message = "INTERNAL SERVER ERROR" });
       }

@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Tryitter.DTO;
 
-public class userUpdate
+public class UserUpdateDto
 {
   [EmailAddress]
   public string Email { get; set; }
@@ -11,4 +11,12 @@ public class userUpdate
   public string Password { get; set; }
   [MinLength(2)]
   public string Name { get; set; }
+}
+
+public class UserLoginDto
+{
+  [EmailAddress]
+  public string Email { get; set; }
+  [MinLength(6)]
+  public string Password { get; set; }
 }

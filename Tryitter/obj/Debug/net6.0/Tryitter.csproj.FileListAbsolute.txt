@@ -60,3 +60,4 @@
 /home/tiago/Tryitter/Tryitter/obj/Debug/net6.0/ref/Tryitter.dll
 /home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Humanizer.dll
 /home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Tryitter.Repository;
 using Tryitter.Model;
 using Tryitter.DTO;
+using Tryitter.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tryitter.Controllers;
 
@@ -38,24 +40,45 @@ public class UserController : Controller
   public ActionResult Create(UserModel user)
   {
     _repository.Create(user);
+    var token = new { token = Token.Generate(user) };
 
-    return Ok(user);
+    return Ok(token);
+  }
+
+  [HttpPost]
+  [Route("/login")]
+  public ActionResult Login(UserLoginDto user)
+  {
+    var getUser = _repository.GetByEmail(user.Email);
+
+    if (getUser == null || getUser.Password != user.Password)
+    {
+      return BadRequest(new { message = "Invalid fields" });
+    }
+    var token = new { token = Token.Generate(getUser) };
+
+    return Ok(token);
   }
 
   [HttpPut]
   [Route("{id}")]
-  public ActionResult Update(int id, userUpdate user)
+  [Authorize]
+  public ActionResult Update(int id, UserUpdateDto user)
   {
-    _repository.Update(id, user);
+    if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Update(id, user);
+    else return Unauthorized();
 
     return Ok(user);
   }
 
   [HttpDelete]
   [Route("{id}")]
+  [Authorize]
   public ActionResult Delete(int id)
   {
-    _repository.Delete(id);
+    if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Delete(id);
+    else return Unauthorized();
+
 
     return NoContent();
   }
