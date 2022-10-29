@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Tryitter.Repository;
@@ -10,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ErrorMiddleware>();
 builder.Services.AddControllers();
-builder.Services.AddDbContext<TryitterContext>();
+// var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
+// var DbName = Environment.GetEnvironmentVariable("DB_NAME");
+// var DbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+// var connectionString = $"Data Source={DbHost};Initial Catalog={DbName};User ID=sa;Password={DbPassword}";
+builder.Services.AddDbContext<ITryitterContext, TryitterContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITryitterContext, TryitterContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
