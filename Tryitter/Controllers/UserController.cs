@@ -40,9 +40,9 @@ public class UserController : Controller
   public ActionResult Create(UserModel user)
   {
     _repository.Create(user);
-    var token = new { token = Token.Generate(user) };
+    var token = Token.Generate(user);
 
-    return Ok(token);
+    return Created("token", token);
   }
 
   [HttpPost]
@@ -55,7 +55,7 @@ public class UserController : Controller
     {
       return BadRequest(new { message = "Invalid fields" });
     }
-    var token = new { token = Token.Generate(getUser) };
+    var token = Token.Generate(getUser);
 
     return Ok(token);
   }
