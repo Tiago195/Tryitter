@@ -8,7 +8,7 @@ using Tryitter.Contants;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors(options => options.AddPolicy(name: "origin", policy => policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddTransient<ErrorMiddleware>();
 builder.Services.AddControllers();
 // var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
@@ -60,6 +60,8 @@ app.UseMiddleware<ErrorMiddleware>();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors("origin");
 
 app.MapControllers();
 

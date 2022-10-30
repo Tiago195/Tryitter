@@ -28,11 +28,20 @@ public class UserRepository : IUserRepository
     return user;
   }
 
+  public UserModel? GetByArroba(string arroba)
+  {
+    var user = _context.users.FirstOrDefault(user => user.Arroba == arroba);
+
+    return user;
+  }
+
   public void Create(UserModel newUser)
   {
-    var user = _context.users.FirstOrDefault(user => user.Email == newUser.Email);
+    var emailExist = _context.users.FirstOrDefault(user => user.Email == newUser.Email);
+    var arrobaExist = _context.users.FirstOrDefault(user => user.Arroba == newUser.Arroba);
 
-    if (user != null) throw new ArgumentException("Already in use", $"Email = {user.Email}");
+    if (emailExist != null) throw new ArgumentException("Already in use", $"Email = {emailExist.Email}");
+    if (emailExist != null) throw new ArgumentException("Already in use", $"Arroba = {arrobaExist.Arroba}");
 
     _context.users.Add(newUser);
     _context.SaveChanges();

@@ -8,6 +8,7 @@ public interface IUserRepository
 {
   public UserModel? GetById(int id);
   public UserModel? GetByEmail(string email);
+  public UserModel? GetByArroba(string arroba);
   public IEnumerable<UserModel> GetAll();
   public void Create(UserModel user);
 
