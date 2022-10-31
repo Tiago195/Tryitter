@@ -59,7 +59,7 @@ public class UserController : Controller
     }
     var token = Token.Generate(getUser);
 
-    return Ok(new { token = token, name = getUser.Name, email = getUser.Email, id = getUser.UserId });
+    return Ok(new { token = token, name = getUser.Name, email = getUser.Email, userId = getUser.UserId, arroba = getUser.Arroba });
   }
 
   [HttpPut]
