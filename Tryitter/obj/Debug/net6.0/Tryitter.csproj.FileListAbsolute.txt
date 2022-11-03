@@ -61,3 +61,9 @@
 /home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Humanizer.dll
 /home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Design.dll
 /home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/System.Web.Cors.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/System.Net.Http.Formatting.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/System.Web.Http.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/System.Web.Http.Cors.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Newtonsoft.Json.dll
+/home/tiago/Tryitter/Tryitter/bin/Debug/net6.0/Newtonsoft.Json.Bson.dll
