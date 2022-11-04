@@ -12,6 +12,7 @@ public class TryitterContextTest : DbContext, ITryitterContext
 
   public DbSet<UserModel> users { get; set; }
   public DbSet<PostModel> posts { get; set; }
+  public DbSet<ModuloModel> modulos { get; set; }
 
   // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   // {

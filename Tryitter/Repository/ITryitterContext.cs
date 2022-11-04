@@ -7,6 +7,7 @@ namespace Tryitter.Repository
   {
     public DbSet<UserModel> users { get; set; }
     public DbSet<PostModel> posts { get; set; }
+    public DbSet<ModuloModel> modulos { get; set; }
     public int SaveChanges();
     // public 
   }

@@ -28,16 +28,42 @@ public class TryitterContext : DbContext, ITryitterContext
 
   public DbSet<UserModel> users { get; set; }
   public DbSet<PostModel> posts { get; set; }
+  public DbSet<ModuloModel> modulos { get; set; }
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
-    var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
-    var DbName = Environment.GetEnvironmentVariable("DB_NAME");
-    var DbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+    var DbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "127.0.0.1";
+    var DbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "Tryitter";
+    var DbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD") ?? "Password12";
     var connectionString = $"Data Source={DbHost};Initial Catalog={DbName};User ID=sa;Password={DbPassword}";
     if (!optionsBuilder.IsConfigured)
     {
       optionsBuilder.UseSqlServer(connectionString, opt => opt.EnableRetryOnFailure());
     }
+  }
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<ModuloModel>().HasData(
+        new ModuloModel
+        {
+          ModuloId = 1,
+          Name = "Fundamentos"
+        },
+        new ModuloModel
+        {
+          ModuloId = 2,
+          Name = "Front-end"
+        },
+        new ModuloModel
+        {
+          ModuloId = 3,
+          Name = "Back-end"
+        },
+        new ModuloModel
+        {
+          ModuloId = 4,
+          Name = "Ciência da Computação"
+        }
+    );
   }
 }

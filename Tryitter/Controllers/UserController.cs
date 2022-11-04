@@ -39,10 +39,11 @@ public class UserController : Controller
   }
 
   [HttpPost]
-  public ActionResult Create(UserModel user)
+  public ActionResult Create(UserSubscriptionDto user)
   {
-    _repository.Create(user);
-    var token = Token.Generate(user);
+    var getUser = _repository.Create(user);
+
+    var token = Token.Generate(getUser);
 
     return Created("token", token);
   }
@@ -59,7 +60,7 @@ public class UserController : Controller
     }
     var token = Token.Generate(getUser);
 
-    return Ok(new { token = token, name = getUser.Name, email = getUser.Email, userId = getUser.UserId, arroba = getUser.Arroba });
+    return Ok(new { token = token, name = getUser.Name, email = getUser.Email, userId = getUser.UserId, arroba = getUser.Arroba, Img = getUser.Img, Modulo = getUser.Modulo });
   }
 
   [HttpPut]
@@ -67,6 +68,7 @@ public class UserController : Controller
   [Authorize]
   public ActionResult Update(int id, UserUpdateDto user)
   {
+
     if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Update(id, user);
     else return Unauthorized();
 

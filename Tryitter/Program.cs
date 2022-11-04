@@ -10,13 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddCors(options => options.AddPolicy(name: "origin", policy => policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddTransient<ErrorMiddleware>();
-builder.Services.AddControllers();
-// var DbHost = Environment.GetEnvironmentVariable("DB_HOST");
-// var DbName = Environment.GetEnvironmentVariable("DB_NAME");
-// var DbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
-// var connectionString = $"Data Source={DbHost};Initial Catalog={DbName};User ID=sa;Password={DbPassword}";
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<ITryitterContext, TryitterContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<ITryitterContext, TryitterContext>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
