@@ -10,7 +10,6 @@ public interface IUserRepository
   public UserModel? GetByEmail(string email);
   public IEnumerable<UserModel> GetAll();
   public void Create(UserModel user);
-
   public void Update(int id, UserUpdateDto user);
   public void Delete(int id);
 }
