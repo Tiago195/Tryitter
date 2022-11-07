@@ -89,5 +89,4 @@ public class UserRepository : IUserRepository
     _context.users.Remove(user);
     _context.SaveChanges();
   }
-
 }

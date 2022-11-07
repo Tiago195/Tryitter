@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/tiago/Tryitter/Tryitter.Test/Tryitter.Test.csproj": {}
+    "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter.Test/Tryitter.Test.csproj": {}
   },
   "projects": {
-    "/home/tiago/Tryitter/Tryitter.Test/Tryitter.Test.csproj": {
+    "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter.Test/Tryitter.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/tiago/Tryitter/Tryitter.Test/Tryitter.Test.csproj",
+        "projectUniqueName": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter.Test/Tryitter.Test.csproj",
         "projectName": "Tryitter.Test",
-        "projectPath": "/home/tiago/Tryitter/Tryitter.Test/Tryitter.Test.csproj",
-        "packagesPath": "/home/tiago/.nuget/packages/",
-        "outputPath": "/home/tiago/Tryitter/Tryitter.Test/obj/",
+        "projectPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter.Test/Tryitter.Test.csproj",
+        "packagesPath": "/home/limoon/.nuget/packages/",
+        "outputPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter.Test/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/tiago/.nuget/NuGet/NuGet.Config"
+          "/home/limoon/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/home/tiago/Tryitter/Tryitter/Tryitter.csproj": {
-                "projectPath": "/home/tiago/Tryitter/Tryitter/Tryitter.csproj"
+              "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj": {
+                "projectPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj"
               }
             }
           }
@@ -99,8 +99,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -109,21 +108,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.302/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/tiago/Tryitter/Tryitter/Tryitter.csproj": {
+    "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/tiago/Tryitter/Tryitter/Tryitter.csproj",
+        "projectUniqueName": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj",
         "projectName": "Tryitter",
-        "projectPath": "/home/tiago/Tryitter/Tryitter/Tryitter.csproj",
-        "packagesPath": "/home/tiago/.nuget/packages/",
-        "outputPath": "/home/tiago/Tryitter/Tryitter/obj/",
+        "projectPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj",
+        "packagesPath": "/home/limoon/.nuget/packages/",
+        "outputPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/tiago/.nuget/NuGet/NuGet.Config"
+          "/home/limoon/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -147,11 +146,19 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.9, )"
+            },
             "Microsoft.AspNetCore.Authentication": {
               "target": "Package",
               "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[6.0.10, )"
             },
@@ -180,8 +187,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -193,7 +199,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }

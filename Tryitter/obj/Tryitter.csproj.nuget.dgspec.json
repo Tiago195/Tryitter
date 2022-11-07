@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/tiago/Tryitter/Tryitter/Tryitter.csproj": {}
+    "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj": {}
   },
   "projects": {
-    "/home/tiago/Tryitter/Tryitter/Tryitter.csproj": {
+    "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/tiago/Tryitter/Tryitter/Tryitter.csproj",
+        "projectUniqueName": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj",
         "projectName": "Tryitter",
-        "projectPath": "/home/tiago/Tryitter/Tryitter/Tryitter.csproj",
-        "packagesPath": "/home/tiago/.nuget/packages/",
-        "outputPath": "/home/tiago/Tryitter/Tryitter/obj/",
+        "projectPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/Tryitter.csproj",
+        "packagesPath": "/home/limoon/.nuget/packages/",
+        "outputPath": "/home/limoon/coding-learn/trybe/c-sharp/final-project/Tryitter/Tryitter/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/tiago/.nuget/NuGet/NuGet.Config"
+          "/home/limoon/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -79,8 +79,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -92,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }
