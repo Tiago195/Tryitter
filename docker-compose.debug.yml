@@ -1,0 +1,28 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  db:
+    container_name: Tryitter_db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 3002:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password12
+  tryitter:
+    container_name: Tryitter_app
+    image: tryitter
+    build:
+      context: .
+      dockerfile: Tryitter/Dockerfile
+    ports:
+      - 3001:80
+    environment:
+      - DB_HOST=db
+      - DB_NAME=tryitter
+      - DB_SA_PASSWORD=Password12
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db

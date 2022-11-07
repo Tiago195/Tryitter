@@ -4,11 +4,13 @@ using Tryitter.Model;
 using Tryitter.DTO;
 using Tryitter.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Web.Http.Cors;
 
 namespace Tryitter.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+// [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
 public class UserController : Controller
 {
   private readonly IUserRepository _repository;
@@ -19,10 +21,10 @@ public class UserController : Controller
   }
 
   [HttpGet]
-  [Route("{id}")]
-  public ActionResult GetById(int id)
+  [Route("{arroba}")]
+  public ActionResult GetById(string arroba)
   {
-    var user = _repository.GetById(id);
+    var user = _repository.GetByArroba(arroba);
     if (user == null) return NotFound(new { message = "User not found" });
 
     return Ok(user);
@@ -37,12 +39,13 @@ public class UserController : Controller
   }
 
   [HttpPost]
-  public ActionResult Create(UserModel user)
+  public ActionResult Create(UserSubscriptionDto user)
   {
-    _repository.Create(user);
-    var token = new { token = Token.Generate(user) };
+    var getUser = _repository.Create(user);
 
-    return Ok(token);
+    var token = Token.Generate(getUser);
+
+    return Created("token", token);
   }
 
   [HttpPost]
@@ -55,9 +58,9 @@ public class UserController : Controller
     {
       return BadRequest(new { message = "Invalid fields" });
     }
-    var token = new { token = Token.Generate(getUser) };
+    var token = Token.Generate(getUser);
 
-    return Ok(token);
+    return Ok(new { token = token, name = getUser.Name, email = getUser.Email, userId = getUser.UserId, arroba = getUser.Arroba, Img = getUser.Img, Modulo = getUser.Modulo });
   }
 
   [HttpPut]
@@ -65,6 +68,7 @@ public class UserController : Controller
   [Authorize]
   public ActionResult Update(int id, UserUpdateDto user)
   {
+
     if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Update(id, user);
     else return Unauthorized();
 

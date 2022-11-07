@@ -1,0 +1,33 @@
+version: '3.4'
+
+networks:
+  Tryitter_network:
+
+
+services:
+  db:
+    container_name: Tryitter_db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 3002:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password12
+    networks:
+      - Tryitter_network
+  tryitter:
+    container_name: Tryitter_app
+    image: tryitter
+    build:
+      context: .
+      dockerfile: Tryitter/Dockerfile
+    ports:
+      - 3001:80
+    environment:
+      - DB_HOST=db
+      - DB_NAME=tryitter
+      - DB_SA_PASSWORD=Password12
+    depends_on:
+      - db
+    networks:
+      - Tryitter_network
