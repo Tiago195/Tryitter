@@ -1,5 +1,7 @@
 using Tryitter.Model;
 using Tryitter.DTO;
+using RestSharp;
+using System.Text.Json;
 
 namespace Tryitter.Repository;
 
@@ -58,7 +60,7 @@ public class UserRepository : IUserRepository
     return newUser;
   }
 
-  public void Update(int id, UserUpdateDto userUpdate)
+  public UserModel Update(int id, UserUpdateDto userUpdate)
   {
     var user = _context.users.Find(id);
     var isExistEmail = _context.users.FirstOrDefault(user => user.Email == userUpdate.Email && user.UserId != id);
@@ -68,6 +70,24 @@ public class UserRepository : IUserRepository
     if (isExistArroba != null) throw new ArgumentException("Already in use", $"Arroba = {userUpdate.Arroba}");
     if (user == null) throw new ArgumentNullException($"UserId = {id}", "Not found");
 
+    if (user.Img != userUpdate.Img)
+    {
+      var options = new RestClientOptions("https://api.imgur.com/3/image")
+      {
+        Timeout = -1
+      };
+      var client = new RestClient(options);
+      var request = new RestRequest()
+      .AddHeader("Authorization", "Client-ID 441d1df3f1a14af")
+      .AddParameter("image", userUpdate.Img);
+      // .AlwaysMultipartFormData = true;
+      request.AlwaysMultipartFormData = true;
+
+      var response = client.Post<ImageDto>(request);
+
+      user.Img = response.data.link;
+    }
+
     // _context.Entry(user).CurrentValues.SetValues(userUpdate);
     var modulo = _context.modulos.Find(userUpdate.ModuloId);
     user.Email = userUpdate.Email;
@@ -75,11 +95,12 @@ public class UserRepository : IUserRepository
     user.Name = userUpdate.Name;
     user.Arroba = userUpdate.Arroba;
     user.Modulo = modulo;
-    user.Img = userUpdate.Img;
 
     _context.users.Update(user);
 
     _context.SaveChanges();
+
+    return user;
   }
   public void Delete(int id)
   {

@@ -12,6 +12,6 @@ public interface IUserRepository
   public IEnumerable<UserModel> GetAll();
   public UserModel Create(UserSubscriptionDto user);
 
-  public void Update(int id, UserUpdateDto user);
+  public UserModel Update(int id, UserUpdateDto user);
   public void Delete(int id);
 }

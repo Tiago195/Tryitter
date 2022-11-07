@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "lbGwzKI9nw0e1fO1axI+oqlYNonC3dGn+i6dOqloRYbs1z0CANnWFvGBh8evJk8u5U5W3x5pXb9m+f0Pg1exwA==",
+  "dgSpecHash": "4wEny6BZgL5QMb7TWyykdhpE+jHxEPfzSKo50PyN8Gyse+Vgk+AVQpszeQQj8LRoqilkWYEeS9tH6PrP9UTjTg==",
   "success": true,
   "projectFilePath": "/home/tiago/Tryitter/Tryitter/Tryitter.csproj",
   "expectedPackageFiles": [
@@ -61,6 +61,7 @@
     "/home/tiago/.nuget/packages/microsoft.win32.systemevents/4.7.0/microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "/home/tiago/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
     "/home/tiago/.nuget/packages/newtonsoft.json.bson/1.0.2/newtonsoft.json.bson.1.0.2.nupkg.sha512",
+    "/home/tiago/.nuget/packages/restsharp/108.0.2/restsharp.108.0.2.nupkg.sha512",
     "/home/tiago/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "/home/tiago/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "/home/tiago/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
