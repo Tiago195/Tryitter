@@ -7,7 +7,7 @@ public class PostRepository: IPostRepository
 {
   private readonly TryitterContext _context;
 
-  public UserRepository(TryitterContext context)
+  public PostRepository(TryitterContext context)
   {
     _context = context;
   }
@@ -20,9 +20,10 @@ public class PostRepository: IPostRepository
   {
     return _context.posts.Find(id);
   }
-  public PostModel? GetAllByEmail(string email)
+  public IEnumerable<PostModel>? GetAllByEmail(string email)
   {
-    return _context.posts.Find(posts => posts.User == email);
+    return _context.posts.Where(posts => posts.User.Email == email); /* Isso aqui é um array */
+    // corrigir o find da L25
   }
   public void Create(PostModel newPost)
   // Verificar se não está faltando algum check
@@ -36,7 +37,7 @@ public class PostRepository: IPostRepository
     var post = GetById(id);
     if (post == null) throw new ArgumentNullException($"PostId = {id}", "Not found");
 
-    _context.Entry(post).CurrentValues.SetValues(newPostBody);
+    // _context.Entry(post).CurrentValues.SetValues(newPostBody);
     _context.SaveChanges();
   }
   public void Delete(int id)

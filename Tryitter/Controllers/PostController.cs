@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Tryitter.Controllers;
 
-[PostController]
+[ApiController]
 [Route("[controller]")]
 public class PostController : Controller
 {
-  private readonly IUserRepository _repository;
+  private readonly IPostRepository _repository;
 
-  public PostController(IUserRepository repository)
+  public PostController(IPostRepository repository)
   {
     _repository = repository;
   }
@@ -41,13 +41,13 @@ public class PostController : Controller
   public ActionResult GetAllByEmail(string email)
   {
     var allUserPosts = _repository.GetAllByEmail(email);
-    if (post == null) return NotFound(new { message = "User doesn't have any posts (yet!)" });
+    if (allUserPosts == null) return NotFound(new { message = "User doesn't have any posts (yet!)" });
 
     return Ok(allUserPosts);
   }
 
   [HttpPost]
-  public ActionResult Create(string post)
+  public ActionResult Create(PostModel post)
   {
     // Try..catch aqui?
     _repository.Create(post);
