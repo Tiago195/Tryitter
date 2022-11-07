@@ -69,10 +69,10 @@ public class UserController : Controller
   public ActionResult Update(int id, UserUpdateDto user)
   {
 
-    if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Update(id, user);
-    else return Unauthorized();
+    if (HttpContext.User.HasClaim("Id", id.ToString())) return Ok(_repository.Update(id, user));
 
-    return Ok(user);
+    return Unauthorized();
+
   }
 
   [HttpDelete]

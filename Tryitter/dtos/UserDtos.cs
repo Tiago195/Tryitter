@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Tryitter.Model;
 
@@ -15,6 +16,8 @@ public class UserUpdateDto
   public string Arroba { get; set; }
   public int ModuloId { get; set; }
   public string Img { get; set; }
+  [NotMapped]
+  public List<PostModel> Posts { get; set; } = new List<PostModel>();
 }
 
 public class UserLoginDto
