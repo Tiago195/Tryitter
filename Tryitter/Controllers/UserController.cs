@@ -83,8 +83,6 @@ public class UserController : Controller
     if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Delete(id);
     else return Unauthorized();
 
-
     return NoContent();
   }
-
 }

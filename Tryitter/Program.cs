@@ -12,6 +12,7 @@ builder.Services.AddCors(options => options.AddPolicy(name: "origin", policy => 
 builder.Services.AddTransient<ErrorMiddleware>();
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<ITryitterContext, TryitterContext>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<ITryitterContext, TryitterContext>();
