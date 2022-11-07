@@ -47,11 +47,17 @@ public class PostController : Controller
   }
 
   [HttpPost]
-  public ActionResult Create(PostModel post)
+  [Route("{userId}")]
+  [Authorize]
+  public ActionResult Create(int userId, PostModel post)
   {
-    // Try..catch aqui?
-    _repository.Create(post);
-    return Ok(post);
+    if (HttpContext.User.HasClaim("Id", userId.ToString()))
+    {
+      _repository.Create(userId, post);
+      return NoContent();
+    }
+
+    return Unauthorized();
   }
 
   [HttpPut]

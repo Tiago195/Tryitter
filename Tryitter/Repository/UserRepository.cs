@@ -34,6 +34,10 @@ public class UserRepository : IUserRepository
   {
     var user = _context.users.FirstOrDefault(user => user.Arroba == arroba);
 
+    // var post = _context.posts.Where((post) => post.User.UserId == user.UserId).ToList();
+
+    // user.Posts = post;
+
     return user;
   }
 

@@ -3,7 +3,7 @@ using Tryitter.Model;
 namespace Tryitter.Repository;
 
 
-public class PostRepository: IPostRepository
+public class PostRepository : IPostRepository
 {
   private readonly TryitterContext _context;
 
@@ -14,7 +14,19 @@ public class PostRepository: IPostRepository
 
   public IEnumerable<PostModel> GetAll()
   {
-    return _context.posts;
+    return _context.posts.Join(
+      _context.users,
+      post => post.User.UserId,
+      user => user.UserId,
+      (post, user) => new PostModel()
+      {
+        User = user,
+        Content = post.Content,
+        CreatedAt = post.CreatedAt,
+        Likes = post.Likes,
+        PostId = post.PostId
+      }
+    );
   }
   public PostModel? GetById(int id)
   {
@@ -22,12 +34,16 @@ public class PostRepository: IPostRepository
   }
   public IEnumerable<PostModel>? GetAllByEmail(string email)
   {
-    return _context.posts.Where(posts => posts.User.Email == email); /* Isso aqui é um array */
+    return GetAll().Where(posts => posts.User.Email == email); /* Isso aqui é um array */
     // corrigir o find da L25
   }
-  public void Create(PostModel newPost)
+  public void Create(int userId, PostModel newPost)
   // Verificar se não está faltando algum check
   {
+    var user = _context.users.Find(userId);
+
+    newPost.User = user;
+
     _context.posts.Add(newPost);
     _context.SaveChanges();
   }

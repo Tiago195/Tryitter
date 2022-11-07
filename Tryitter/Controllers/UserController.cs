@@ -1,16 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Tryitter.Repository;
-using Tryitter.Model;
 using Tryitter.DTO;
 using Tryitter.Services;
 using Microsoft.AspNetCore.Authorization;
-using System.Web.Http.Cors;
 
 namespace Tryitter.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-// [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
 public class UserController : Controller
 {
   private readonly IUserRepository _repository;

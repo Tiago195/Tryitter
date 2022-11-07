@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tryitter.Model;
 
@@ -10,5 +11,6 @@ public class PostModel
   public DateTime CreatedAt { get; set; } = DateTime.Now;
 
   public int Likes { get; set; } = 0;
-  public UserModel User { get; set; }
+  // [ForeignKey("UserId")]
+  public UserModel? User { get; set; } = new UserModel();
 }
