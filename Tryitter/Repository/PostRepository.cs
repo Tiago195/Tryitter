@@ -26,7 +26,7 @@ public class PostRepository : IPostRepository
         Likes = post.Likes,
         PostId = post.PostId
       }
-    );
+    ).OrderByDescending(x => x.CreatedAt);
   }
   public PostModel? GetById(int id)
   {
@@ -41,9 +41,8 @@ public class PostRepository : IPostRepository
   // Verificar se não está faltando algum check
   {
     var user = _context.users.Find(userId);
-
+    // System.Console.WriteLine(user.Posts.Count());
     newPost.User = user;
-
     _context.posts.Add(newPost);
     _context.SaveChanges();
   }

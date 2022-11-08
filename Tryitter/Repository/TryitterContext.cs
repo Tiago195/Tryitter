@@ -43,6 +43,14 @@ public class TryitterContext : DbContext, ITryitterContext
   }
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    modelBuilder.Entity<UserModel>()
+      .HasMany(post => post.Posts)
+      .WithOne(user => user.User);
+
+    modelBuilder.Entity<PostModel>()
+      .HasOne(user => user.User)
+      .WithMany(post => post.Posts);
+
     modelBuilder.Entity<ModuloModel>().HasData(
         new ModuloModel
         {

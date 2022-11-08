@@ -36,7 +36,7 @@ namespace Tryitter.Migrations
 
                     b.HasKey("ModuloId");
 
-                    b.ToTable("ModuloModel");
+                    b.ToTable("modulos");
 
                     b.HasData(
                         new

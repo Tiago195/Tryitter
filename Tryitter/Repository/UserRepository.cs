@@ -34,9 +34,17 @@ public class UserRepository : IUserRepository
   {
     var user = _context.users.FirstOrDefault(user => user.Arroba == arroba);
 
-    // var post = _context.posts.Where((post) => post.User.UserId == user.UserId).ToList();
-
-    // user.Posts = post;
+    var teste = _context.posts.Where(x => x.User.UserId == user.UserId).Select(x => (
+      new PostModel()
+      {
+        User = null,
+        Content = x.Content,
+        CreatedAt = x.CreatedAt,
+        PostId = x.PostId,
+        Likes = x.Likes
+      }
+    ));
+    user.Posts = teste.OrderByDescending(x => x.CreatedAt).ToList();
 
     return user;
   }
@@ -92,7 +100,6 @@ public class UserRepository : IUserRepository
       user.Img = response.data.link;
     }
 
-    // _context.Entry(user).CurrentValues.SetValues(userUpdate);
     var modulo = _context.modulos.Find(userUpdate.ModuloId);
     user.Email = userUpdate.Email;
     user.Password = userUpdate.Password;

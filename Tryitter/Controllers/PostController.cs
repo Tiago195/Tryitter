@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Tryitter.Repository;
 using Tryitter.Model;
-// using Tryitter.DTO;
+using Tryitter.DTO;
 using Tryitter.Services;
 using Microsoft.AspNetCore.Authorization;
 
@@ -49,10 +49,11 @@ public class PostController : Controller
   [HttpPost]
   [Route("{userId}")]
   [Authorize]
-  public ActionResult Create(int userId, PostModel post)
+  public ActionResult Create(int userId, PostDto postDto)
   {
     if (HttpContext.User.HasClaim("Id", userId.ToString()))
     {
+      var post = new PostModel() { Content = postDto.Content };
       _repository.Create(userId, post);
       return NoContent();
     }
