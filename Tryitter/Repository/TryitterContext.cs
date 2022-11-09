@@ -29,6 +29,7 @@ public class TryitterContext : DbContext, ITryitterContext
   public DbSet<UserModel> users { get; set; }
   public DbSet<PostModel> posts { get; set; }
   public DbSet<ModuloModel> modulos { get; set; }
+  public DbSet<LikeModel> likes { get; set; }
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {
@@ -43,6 +44,9 @@ public class TryitterContext : DbContext, ITryitterContext
   }
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    modelBuilder.Entity<LikeModel>()
+      .HasKey(like => new { like.UserId, like.PostId });
+
     modelBuilder.Entity<UserModel>()
       .HasMany(post => post.Posts)
       .WithOne(user => user.User);

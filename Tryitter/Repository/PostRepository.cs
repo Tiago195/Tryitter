@@ -23,7 +23,7 @@ public class PostRepository : IPostRepository
         User = user,
         Content = post.Content,
         CreatedAt = post.CreatedAt,
-        Likes = post.Likes,
+        Likes = _context.likes.Where(x => x.PostId == post.PostId).Count(),
         PostId = post.PostId
       }
     ).OrderByDescending(x => x.CreatedAt);

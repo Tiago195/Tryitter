@@ -53,8 +53,6 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
     var usersJSON = await response.Content.ReadAsStringAsync();
     var users = JsonConvert.DeserializeObject<List<UserModel>>(usersJSON);
 
-    // response.EnsureSuccessStatusCode();
-    // System.Console.WriteLine(usersJSON);
     response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
     users.Count.Should().Be(2);
   }
