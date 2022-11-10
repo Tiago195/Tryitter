@@ -2,6 +2,8 @@ using Tryitter.Model;
 using Tryitter.DTO;
 using RestSharp;
 using System.Text.Json;
+using Tryitter.Views;
+using Tryitter.Services;
 
 namespace Tryitter.Repository;
 
@@ -13,43 +15,65 @@ public class UserRepository : IUserRepository
   {
     _context = context;
   }
-  public IEnumerable<UserModel> GetAll()
+  public IEnumerable<UserView> GetAll()
   {
-    return _context.users;
-  }
-
-  public UserModel? GetById(int id)
-  {
-    return _context.users.Find(id);
-  }
-
-  public UserModel? GetByEmail(string email)
-  {
-    var user = _context.users.FirstOrDefault(user => user.Email == email);
-
-    return user;
-  }
-
-  public UserModel? GetByArroba(string arroba)
-  {
-    var user = _context.users.FirstOrDefault(user => user.Arroba == arroba);
-
-    var teste = _context.posts.Where(x => x.User.UserId == user.UserId).Select(x => (
-      new PostModel()
+    return (
+      from user in _context.users
+      select new UserView()
       {
-        User = null,
-        Content = x.Content,
-        CreatedAt = x.CreatedAt,
-        PostId = x.PostId,
-        Likes = x.Likes
+        UserId = user.UserId,
+        Email = user.Email,
+        Img = user.Img,
+        Modulo = user.Modulo,
+        Arroba = user.Arroba,
+        CreatedAt = user.CreatedAt,
+        Name = user.Name,
+        Posts = UserView.ConvertPostsModel(user.Posts)
       }
-    ));
-    user.Posts = teste.OrderByDescending(x => x.CreatedAt).ToList();
+    );
+  }
+
+  public UserView Login(UserLoginDto login)
+  {
+    var user = (
+      from u in _context.users
+      where u.Email == login.Email && u.Password == login.Password
+      select new UserView()
+      {
+        Arroba = u.Arroba,
+        CreatedAt = u.CreatedAt,
+        Email = u.Email,
+        Img = u.Img,
+        Modulo = u.Modulo,
+        Name = u.Name,
+        UserId = u.UserId
+      }
+    ).FirstOrDefault();
+    if (user == null) throw new InvalidOperationException("Invalid Fields");
 
     return user;
   }
 
-  public UserModel Create(UserSubscriptionDto userDto)
+  public UserView? GetByArroba(string arroba)
+  {
+    return (
+      from user in _context.users
+      where user.Arroba == arroba
+      select new UserView()
+      {
+        Arroba = user.Arroba,
+        CreatedAt = user.CreatedAt,
+        Email = user.Email,
+        Img = user.Img,
+        Modulo = user.Modulo,
+        Name = user.Name,
+        Posts = UserView.ConvertPostsModel(user.Posts),
+        UserId = user.UserId
+      }
+      ).First();
+  }
+
+  public UserView Create(UserDto userDto)
   {
     var emailExist = _context.users.FirstOrDefault(user => user.Email == userDto.Email);
     var arrobaExist = _context.users.FirstOrDefault(user => user.Arroba == userDto.Arroba);
@@ -69,10 +93,19 @@ public class UserRepository : IUserRepository
     _context.users.Add(newUser);
     _context.SaveChanges();
 
-    return newUser;
+    return new UserView()
+    {
+      Arroba = newUser.Arroba,
+      CreatedAt = newUser.CreatedAt,
+      Email = newUser.Email,
+      Img = newUser.Img,
+      Modulo = newUser.Modulo,
+      Name = newUser.Name,
+      UserId = newUser.UserId
+    };
   }
 
-  public UserModel Update(int id, UserUpdateDto userUpdate)
+  public UserView Update(int id, UserDto userUpdate)
   {
     var user = _context.users.Find(id);
     var isExistEmail = _context.users.FirstOrDefault(user => user.Email == userUpdate.Email && user.UserId != id);
@@ -84,18 +117,7 @@ public class UserRepository : IUserRepository
 
     if (user.Img != userUpdate.Img)
     {
-      var options = new RestClientOptions("https://api.imgur.com/3/image")
-      {
-        Timeout = -1
-      };
-      var client = new RestClient(options);
-      var request = new RestRequest()
-      .AddHeader("Authorization", "Client-ID 441d1df3f1a14af")
-      .AddParameter("image", userUpdate.Img);
-      // .AlwaysMultipartFormData = true;
-      request.AlwaysMultipartFormData = true;
-
-      var response = client.Post<ImageDto>(request);
+      var response = Image.sendImg(userUpdate.Img);
 
       user.Img = response.data.link;
     }
@@ -111,8 +133,18 @@ public class UserRepository : IUserRepository
 
     _context.SaveChanges();
 
-    return user;
+    return new UserView()
+    {
+      Email = userUpdate.Email,
+      Name = userUpdate.Name,
+      Arroba = userUpdate.Arroba,
+      Modulo = modulo,
+      CreatedAt = user.CreatedAt,
+      Img = user.Img,
+      UserId = user.UserId
+    };
   }
+
   public void Delete(int id)
   {
     var user = _context.users.Find(id);

@@ -12,13 +12,15 @@ public class LikeRepository : ILikeRepository
     _context = context;
   }
 
-  public void Like(int postId, UserModel user)
+  public void Like(int postId, int userId)
   {
     var post = _context.posts.Find(postId);
+    var user = _context.users.Find(userId);
     // System.Console.WriteLine(postId);
     if (post == null) throw new ArgumentNullException($"PostId = {postId}", "Not found");
+    if (user == null) throw new ArgumentNullException($"UserId = {userId}", "Not found");
 
-    var likeExist = _context.likes.Find(user.UserId, postId);
+    var likeExist = _context.likes.Find(userId, postId);
 
     if (likeExist != null)
     {
@@ -26,7 +28,7 @@ public class LikeRepository : ILikeRepository
     }
     else
     {
-      _context.likes.Add(new LikeModel { PostId = postId, UserId = user.UserId });
+      _context.likes.Add(new LikeModel { PostId = postId, UserId = userId });
     }
     _context.SaveChanges();
   }

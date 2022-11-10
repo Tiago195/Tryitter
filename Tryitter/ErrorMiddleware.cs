@@ -5,6 +5,7 @@ public class ErrorMiddleware : IMiddleware
   {
     {"System.ArgumentException", 409 },
     {"System.ArgumentNullException", 404},
+    {"System.InvalidOperationException", 401}
     // {"System.InvalidOperationException", 401}
   };
   public async Task InvokeAsync(HttpContext context, RequestDelegate next)

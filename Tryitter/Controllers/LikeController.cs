@@ -19,10 +19,12 @@ public class LikeController : Controller
   [HttpPost]
   [Route("{postId}")]
   [Authorize]
-  public ActionResult Like([FromRoute] int postId, UserModel user)
+  public ActionResult Like(int postId)
   {
-
-    _repository.Like(postId, user);
+    var userId = HttpContext.User.Claims.First(x => x.Type == "Id").Value;
+    System.Console.WriteLine("🔥😁😁😁🔥😁🔥🔥");
+    System.Console.WriteLine(userId);
+    _repository.Like(postId, int.Parse(userId));
     return NoContent();
 
   }

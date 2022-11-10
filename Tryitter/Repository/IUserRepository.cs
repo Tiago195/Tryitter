@@ -1,16 +1,16 @@
 using Tryitter.Model;
 using Tryitter.DTO;
+using Tryitter.Views;
 
 namespace Tryitter.Repository;
 
 
 public interface IUserRepository
 {
-  public UserModel? GetById(int id);
-  public UserModel? GetByEmail(string email);
-  public UserModel? GetByArroba(string arroba);
-  public IEnumerable<UserModel> GetAll();
-  public UserModel Create(UserSubscriptionDto user);
-  public UserModel Update(int id, UserUpdateDto user);
+  public UserView Login(UserLoginDto user);
+  public UserView? GetByArroba(string arroba);
+  public IEnumerable<UserView> GetAll();
+  public UserView Create(UserDto user);
+  public UserView Update(int id, UserDto user);
   public void Delete(int id);
 }

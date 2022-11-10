@@ -3,12 +3,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using Tryitter.Model;
+using Tryitter.Views;
 
 namespace Tryitter.Services;
 
 public class Token
 {
-  public static string Generate(UserModel user)
+  public static string Generate(UserView user)
   {
     var tokenHanlder = new JwtSecurityTokenHandler();
     var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Contants.Token.secret));
@@ -24,7 +25,7 @@ public class Token
 
     var token = tokenHanlder.CreateToken(tokenDescriptor);
 
-    return tokenHanlder.WriteToken(token);
+    return $"Bearer {tokenHanlder.WriteToken(token)}";
   }
 
   public static string GetUserId(string token)
@@ -35,7 +36,7 @@ public class Token
     return jwtSecurityToken.Claims.First(x => x.Type == "Id").Value;
   }
 
-  private static ClaimsIdentity AddClaims(UserModel user)
+  private static ClaimsIdentity AddClaims(UserView user)
   {
     var claims = new ClaimsIdentity();
 

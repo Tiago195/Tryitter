@@ -5,7 +5,7 @@ using Tryitter.Model;
 
 namespace Tryitter.DTO;
 
-public class UserUpdateDto
+public class UserDto
 {
   [EmailAddress]
   public string Email { get; set; }
@@ -15,9 +15,8 @@ public class UserUpdateDto
   public string Name { get; set; }
   public string Arroba { get; set; }
   public int ModuloId { get; set; }
-  public string Img { get; set; }
-  [NotMapped]
-  public List<PostModel> Posts { get; set; } = new List<PostModel>();
+  public string? Img { get; set; }
+
 }
 
 public class UserLoginDto
@@ -28,14 +27,13 @@ public class UserLoginDto
   public string Password { get; set; }
 }
 
-public class UserSubscriptionDto
-{
-  [EmailAddress]
-  public string Email { get; set; }
-  public string Arroba { get; set; }
-  [MinLength(6)]
-  public string Password { get; set; }
-  public string Name { get; set; }
-  public int ModuloId { get; set; }
-  public string Img { get; set; } = "https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-profile-line-black-icon-png-image_691065.jpg";
-}
+// public class UserSubscriptionDto
+// {
+//   [EmailAddress]
+//   public string Email { get; set; }
+//   public string Arroba { get; set; }
+//   [MinLength(6)]
+//   public string Password { get; set; }
+//   public string Name { get; set; }
+//   public int ModuloId { get; set; }
+// }

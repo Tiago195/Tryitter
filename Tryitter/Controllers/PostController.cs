@@ -18,15 +18,15 @@ public class PostController : Controller
     _repository = repository;
   }
 
-  [HttpGet]
-  [Route("{id}")]
-  public ActionResult GetById(int id)
-  {
-    var post = _repository.GetById(id);
-    if (post == null) return NotFound(new { message = "Post not found" });
+  // [HttpGet]
+  // [Route("{id}")]
+  // public ActionResult GetById(int id)
+  // {
+  //   var post = _repository.GetById(id);
+  //   if (post == null) return NotFound(new { message = "Post not found" });
 
-    return Ok(post);
-  }
+  //   return Ok(post);
+  // }
 
   [HttpGet]
   public ActionResult GetAll()
@@ -36,15 +36,15 @@ public class PostController : Controller
     return Ok(allPosts);
   }
 
-  [HttpGet]
-  [Route("{email}")] /* Verificar se é essa a rota, se faz sentido */
-  public ActionResult GetAllByEmail(string email)
-  {
-    var allUserPosts = _repository.GetAllByEmail(email);
-    if (allUserPosts == null) return NotFound(new { message = "User doesn't have any posts (yet!)" });
+  // [HttpGet]
+  // [Route("{email}")] /* Verificar se é essa a rota, se faz sentido */
+  // public ActionResult GetAllByEmail(string email)
+  // {
+  //   var allUserPosts = _repository.GetAllByEmail(email);
+  //   if (allUserPosts == null) return NotFound(new { message = "User doesn't have any posts (yet!)" });
 
-    return Ok(allUserPosts);
-  }
+  //   return Ok(allUserPosts);
+  // }
 
   [HttpPost]
   [Route("{userId}")]
@@ -61,22 +61,24 @@ public class PostController : Controller
     return Unauthorized();
   }
 
-  [HttpPut]
-  [Route("{id}")]
-  // [Authorize] ?
-  public ActionResult Update(int id, string post)
-  {
-    // Try..catch aqui? Temos verificação no Repo dessa rota
-    _repository.Update(id, post);
-    return Ok(post);
-  }
+  // [HttpPut]
+  // [Route("{id}")]
+  // // [Authorize] ?
+  // public ActionResult Update(int id, string post)
+  // {
+  //   // Try..catch aqui? Temos verificação no Repo dessa rota
+  //   _repository.Update(id, post);
+  //   return Ok(post);
+  // }
 
   [HttpDelete]
   [Route("{id}")]
-  // [Authorize] ?
+  [Authorize]
   public ActionResult Delete(int id)
   {
-    _repository.Delete(id);
+    var userId = HttpContext.User.Claims.First(x => x.Type == "Id").Value;
+
+    _repository.Delete(id, int.Parse(userId));
 
     return NoContent();
   }

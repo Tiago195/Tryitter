@@ -12,8 +12,8 @@ using Tryitter.Repository;
 namespace Tryitter.Migrations
 {
     [DbContext(typeof(TryitterContext))]
-    [Migration("20221108001058_DB")]
-    partial class DB
+    [Migration("20221110133413_db")]
+    partial class db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,19 @@ namespace Tryitter.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Tryitter.Model.LikeModel", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "PostId");
+
+                    b.ToTable("likes");
+                });
 
             modelBuilder.Entity("Tryitter.Model.ModuloModel", b =>
                 {
@@ -81,7 +94,7 @@ namespace Tryitter.Migrations
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("PostId");
@@ -111,7 +124,6 @@ namespace Tryitter.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Img")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ModuloId")
@@ -136,9 +148,7 @@ namespace Tryitter.Migrations
                 {
                     b.HasOne("Tryitter.Model.UserModel", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

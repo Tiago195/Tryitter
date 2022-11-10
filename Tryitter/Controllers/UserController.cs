@@ -3,6 +3,7 @@ using Tryitter.Repository;
 using Tryitter.DTO;
 using Tryitter.Services;
 using Microsoft.AspNetCore.Authorization;
+using Tryitter.Views;
 
 namespace Tryitter.Controllers;
 
@@ -19,7 +20,7 @@ public class UserController : Controller
 
   [HttpGet]
   [Route("{arroba}")]
-  public ActionResult GetById(string arroba)
+  public ActionResult GetByArroba(string arroba)
   {
     var user = _repository.GetByArroba(arroba);
     if (user == null) return NotFound(new { message = "User not found" });
@@ -36,7 +37,7 @@ public class UserController : Controller
   }
 
   [HttpPost]
-  public ActionResult Create(UserSubscriptionDto user)
+  public ActionResult Create(UserDto user)
   {
     var getUser = _repository.Create(user);
 
@@ -47,23 +48,19 @@ public class UserController : Controller
 
   [HttpPost]
   [Route("/login")]
-  public ActionResult Login(UserLoginDto user)
+  public ActionResult Login(UserLoginDto login)
   {
-    var getUser = _repository.GetByEmail(user.Email);
+    var user = _repository.Login(login);
 
-    if (getUser == null || getUser.Password != user.Password)
-    {
-      return BadRequest(new { message = "Invalid fields" });
-    }
-    var token = Token.Generate(getUser);
+    var token = Token.Generate(user);
 
-    return Ok(new { token = token, name = getUser.Name, email = getUser.Email, userId = getUser.UserId, arroba = getUser.Arroba, Img = getUser.Img, Modulo = getUser.Modulo });
+    return Ok(new { token, user });
   }
 
   [HttpPut]
   [Route("{id}")]
   [Authorize]
-  public ActionResult Update(int id, UserUpdateDto user)
+  public ActionResult Update(int id, UserDto user)
   {
 
     if (HttpContext.User.HasClaim("Id", id.ToString())) return Ok(_repository.Update(id, user));
@@ -75,11 +72,15 @@ public class UserController : Controller
   [HttpDelete]
   [Route("{id}")]
   [Authorize]
+  // essa rota so funciona se os nao tiverem post
   public ActionResult Delete(int id)
   {
-    if (HttpContext.User.HasClaim("Id", id.ToString())) _repository.Delete(id);
-    else return Unauthorized();
+    if (HttpContext.User.HasClaim("Id", id.ToString()))
+    {
+      _repository.Delete(id);
+      return NoContent();
+    }
+    return Unauthorized();
 
-    return NoContent();
   }
 }
