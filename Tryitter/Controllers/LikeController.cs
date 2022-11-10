@@ -21,12 +21,9 @@ public class LikeController : Controller
   [Authorize]
   public ActionResult Like([FromRoute] int postId, UserModel user)
   {
-    System.Console.WriteLine(postId);
-    if (HttpContext.User.HasClaim("Id", user.UserId.ToString()))
-    {
-      _repository.Like(postId, user);
-      return NoContent();
-    }
-    return Unauthorized();
+
+    _repository.Like(postId, user);
+    return NoContent();
+
   }
 }
