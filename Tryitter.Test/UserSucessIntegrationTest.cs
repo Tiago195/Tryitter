@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Tryitter.Model;
 using Tryitter.DTO;
 using System.Text;
+using Tryitter.Views;
 
 namespace Tryitter.Test;
 
@@ -22,7 +23,6 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
         if (descriptor != null)
         {
           service.Remove(descriptor);
-          // service.Remove(service.Select(x => x))
         }
         service.AddDbContext<TryitterContextTest>(options =>
         {
@@ -31,6 +31,10 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
 
         service.AddScoped<ITryitterContext, TryitterContextTest>();
         service.AddScoped<IUserRepository, UserRepository>();
+        service.AddScoped<IPostRepository, PostRepository>();
+        service.AddScoped<IModuleRepository, ModuleRepository>();
+        service.AddScoped<ILikeRepository, LikeRepository>();
+
         var sp = service.BuildServiceProvider();
         var scope = sp.CreateScope();
         var appContext = scope.ServiceProvider.GetRequiredService<TryitterContextTest>();
@@ -39,6 +43,7 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
         appContext.Database.EnsureDeleted();
         appContext.Database.EnsureCreated();
         appContext.users.AddRange(Helpers.GetUsers());
+        // appContext.modulos.AddRange(Helpers.GetModulos());
 
         appContext.SaveChanges();
 
@@ -58,9 +63,9 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
   }
 
   [Fact]
-  public async Task TestUserGetById()
+  public async Task TestUserGetByArroba()
   {
-    var response = await client.GetAsync("/user/1");
+    var response = await client.GetAsync("/user/One");
     var usersJSON = await response.Content.ReadAsStringAsync();
     var users = JsonConvert.DeserializeObject<UserModel>(usersJSON);
 
@@ -71,7 +76,16 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
   [Fact]
   public async Task TestUserCreate()
   {
-    var user = new UserModel { Email = "testando@create.com", Name = "testado", Password = "test123" };
+    var user = new UserModel
+    {
+      Email = "user3@gmail.com",
+      Password = "123456789",
+      Name = "userThree",
+      Arroba = "Three",
+      CreatedAt = DateTime.Now,
+      Img = "fake image",
+      Modulo = new ModuloModel { Name = "fake modulo" },
+    };
     var userJson = JsonConvert.SerializeObject(user);
     var content = new StringContent(userJson, Encoding.UTF8, "application/json");
 
@@ -83,7 +97,7 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
   [Fact]
   public async Task TestUserLogin()
   {
-    var user = new UserLoginDto { Email = "userTwo@email.com", Password = "123456" };
+    var user = new UserLoginDto { Email = "user2@gmail.com", Password = "123456" };
     var userJson = JsonConvert.SerializeObject(user);
     var content = new StringContent(userJson, Encoding.UTF8, "application/json");
 
@@ -92,29 +106,38 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
     response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
   }
 
+  class t
+  {
+    public string token { get; set; }
+    public UserView user { get; set; }
+  }
   [Fact]
   public async Task TestUserUpdate()
   {
-    var userLogin = new UserLoginDto { Email = "userTwo@email.com", Password = "123456" };
+    var userLogin = new UserLoginDto { Email = "user2@gmail.com", Password = "123456" };
     var userJsonLogin = JsonConvert.SerializeObject(userLogin);
     var contentLogin = new StringContent(userJsonLogin, Encoding.UTF8, "application/json");
     var response = await client.PostAsync("login", contentLogin);
-    var token = await response.Content.ReadAsStringAsync();
+    var contentString = await response.Content.ReadAsStringAsync();
+    var token = JsonConvert.DeserializeObject<t>(contentString).token;
 
-    var userUpdate = new UserUpdateDto { Email = "user2@email.com", Password = "123321", Name = "newName" };
+    var userUpdate = new UserDto
+    {
+      Email = "user2@email.com",
+      Password = "123321",
+      Name = "newName",
+      Arroba = "Two2",
+      ModuloId = 1,
+      Img = "fake image"
+    };
     var userJsonUpdate = JsonConvert.SerializeObject(userUpdate);
     var contentUpdate = new StringContent(userJsonUpdate, Encoding.UTF8, "application/json");
 
-    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Split(" ")[1]);
 
     var responseUpdate = await client.PutAsync("user/2", contentUpdate);
-    var responseUpdateString = await responseUpdate.Content.ReadAsStringAsync();
-    var responseUpdateJson = JsonConvert.DeserializeObject<UserModel>(responseUpdateString);
 
     responseUpdate.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-    responseUpdateJson.Name.Should().Be("newName");
-    responseUpdateJson.Email.Should().Be("user2@email.com");
-    responseUpdateJson.Password.Should().Be("123321");
   }
 
   [Fact]
@@ -124,9 +147,10 @@ public class UserSucessIntegrationTest : IClassFixture<WebApplicationFactory<Pro
     var userJsonLogin = JsonConvert.SerializeObject(userLogin);
     var contentLogin = new StringContent(userJsonLogin, Encoding.UTF8, "application/json");
     var responseLogin = await client.PostAsync("login", contentLogin);
-    var token = await responseLogin.Content.ReadAsStringAsync();
+    var contentString = await responseLogin.Content.ReadAsStringAsync();
+    var token = JsonConvert.DeserializeObject<t>(contentString).token;
 
-    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Split(" ")[1]);
 
     var responseDelete = await client.DeleteAsync("user/1");
 

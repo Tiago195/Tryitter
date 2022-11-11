@@ -49,6 +49,7 @@ public class UserRepository : IUserRepository
         UserId = u.UserId
       }
     ).FirstOrDefault();
+
     if (user == null) throw new InvalidOperationException("Invalid Fields");
 
     return user;
@@ -70,7 +71,7 @@ public class UserRepository : IUserRepository
         Posts = UserView.ConvertPostsModel(user.Posts),
         UserId = user.UserId
       }
-      ).First();
+      ).FirstOrDefault();
   }
 
   public UserView Create(UserDto userDto)
@@ -113,7 +114,6 @@ public class UserRepository : IUserRepository
 
     if (isExistEmail != null) throw new ArgumentException("Already in use", $"Email = {userUpdate.Email}");
     if (isExistArroba != null) throw new ArgumentException("Already in use", $"Arroba = {userUpdate.Arroba}");
-    if (user == null) throw new ArgumentNullException($"UserId = {id}", "Not found");
 
     if (user.Img != userUpdate.Img)
     {
@@ -148,7 +148,6 @@ public class UserRepository : IUserRepository
   public void Delete(int id)
   {
     var user = _context.users.Find(id);
-    if (user == null) throw new ArgumentNullException($"UserId = {id}", "Not found");
 
     _context.users.Remove(user);
     _context.SaveChanges();

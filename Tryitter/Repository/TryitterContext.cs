@@ -6,23 +6,23 @@ using Tryitter.Model;
 namespace Tryitter.Repository;
 public class TryitterContext : DbContext, ITryitterContext
 {
-  public TryitterContext(DbContextOptions<TryitterContext> options) : base(options)
-  {
-    try
-    {
-      var db = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
-      if (db != null)
-      {
-        if (!db.CanConnect()) db.Create();
-        if (!db.HasTables()) db.CreateTables();
-        // db.EnsureCreated();
-      }
-    }
-    catch (System.Exception e)
-    {
-      System.Console.WriteLine(e.Message);
-    }
-  }
+  // public TryitterContext(DbContextOptions<TryitterContext> options) : base(options)
+  // {
+  //   try
+  //   {
+  //     var db = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
+  //     if (db != null)
+  //     {
+  //       if (!db.CanConnect()) db.Create();
+  //       if (!db.HasTables()) db.CreateTables();
+  //       // db.EnsureCreated();
+  //     }
+  //   }
+  //   catch (System.Exception e)
+  //   {
+  //     System.Console.WriteLine(e.Message);
+  //   }
+  // }
 
   // public TryitterContext() { }
 

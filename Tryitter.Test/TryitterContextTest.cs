@@ -13,7 +13,13 @@ public class TryitterContextTest : DbContext, ITryitterContext
   public DbSet<UserModel> users { get; set; }
   public DbSet<PostModel> posts { get; set; }
   public DbSet<ModuloModel> modulos { get; set; }
+  public DbSet<LikeModel> likes { get; set; }
 
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<LikeModel>()
+      .HasKey(like => new { like.UserId, like.PostId });
+  }
   // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   // {
   //   if (!optionsBuilder.IsConfigured)

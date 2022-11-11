@@ -6,9 +6,9 @@ namespace Tryitter.Repository;
 
 public class PostRepository : IPostRepository
 {
-  private readonly TryitterContext _context;
+  private readonly ITryitterContext _context;
 
-  public PostRepository(TryitterContext context)
+  public PostRepository(ITryitterContext context)
   {
     _context = context;
   }
